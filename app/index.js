@@ -7,8 +7,13 @@ var args = require('minimist')(process.argv.slice(2), {
 var file = require('./modules/file.js');
 var test = require('./modules/test.js');
 
-var contents = file.read(args.file);
+file.read(args.file, function(err, contents){
+  if(err) {
+    console.error(err);
+  } else {
+    console.log(contents.toString());
+  }
+});
 
 console.log('Hello ' + args.name);
-console.log(contents.toString());
 test.log('asd');
