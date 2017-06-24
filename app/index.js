@@ -1,19 +1,26 @@
 #!/usr/bin/env node
 
-var args = require('minimist')(process.argv.slice(2), {
+const args = require('minimist')(process.argv.slice(2), {
   string: 'name',
   string: 'file'
 });
-var file = require('./modules/file.js');
-var test = require('./modules/test.js');
+const file = require('./modules/file.js');
+const test = require('./modules/test.js');
 
-file.read(args.file, function(err, contents){
-  if(err) {
-    console.error(err);
-  } else {
-    console.log(contents.toString());
-  }
-});
+if(args.file) {
+  file.read(args.file)
+    // Once promise resolves
+    .then((contents) => {
+      console.log(contents);
+    })
+    // Error handler
+    .catch((err) => {
+      console.error(err);
+    });
+}
 
-console.log('Hello ' + args.name);
+if(args.name) {
+  console.log('Hello ' + args.name);
+}
+
 test.log('asd');

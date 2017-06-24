@@ -1,19 +1,23 @@
-var fs = require('fs');
+const fs = require('fs');
 
-function read (arg,cb) {
+const read = (arg) => {
   console.log('');
-  console.log('from file .js', arg);
+  console.log('Reading from file .js', arg);
   console.log('');
 
-  return fs.readFile(arg, function(err, contents) {
-    if (err) {
-      cb(err);
-    } else {
-      setTimeout(function(){
-        cb(undefined,contents);
-      },1234);
-    }
+  const promise = new Promise((resolve, reject) => {
+    fs.readFile(arg, (err, contents) => {
+      if(err) {
+        reject(err);
+      } else {
+        setTimeout(() => {
+          resolve(contents);
+        }, 1234);
+      }
+    });
   });
+
+  return promise;
 }
 
 module.exports.read = read;
