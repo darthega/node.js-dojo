@@ -8,13 +8,22 @@ const file = require('./modules/file.js');
 const test = require('./modules/test.js');
 
 if(args.file) {
+  //First call
   file.read(args.file)
-    // Once promise resolves
     .then((contents) => {
-      console.log(contents);
+      // Call to 2.txt
+      return file.read(contents.toString().trim())
     })
-    // Error handler
+    .then((newContent) => {
+      // Call to 3.txt
+      return file.read(newContent.toString().trim())
+    })
+    .then((thirdContent) => {
+      // Prints 3.txt contents
+      console.log(thirdContent.toString());
+    })
     .catch((err) => {
+      // Error handler
       console.error(err);
     });
 }
