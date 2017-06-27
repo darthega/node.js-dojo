@@ -20,7 +20,9 @@ if(args.file) {
     })
     .then((thirdContent) => {
       // Prints 3.txt contents
-      console.log(thirdContent.toString());
+      // console.log(thirdContent.toString());
+      console.log('thirdContent loaded completely');
+      console.log('Contents size = ' + thirdContent.length);
     })
     .catch((err) => {
       // Error handler

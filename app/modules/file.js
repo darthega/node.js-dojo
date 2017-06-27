@@ -6,14 +6,24 @@ const read = (arg) => {
   console.log('');
 
   const promise = new Promise((resolve, reject) => {
-    fs.readFile(arg, (err, contents) => {
-      if(err) {
-        reject(err);
-      } else {
-        setTimeout(() => {
-          resolve(contents);
-        }, 1234);
-      }
+    let stream = fs.createReadStream(arg);
+    let contents = '';
+
+    stream.on('data', (chunk) => {
+      console.log('Chunk size = ' + chunk.length);
+      contents += chunk;
+    });
+
+    stream.on('end', () => {
+      console.log('Finished loading.');
+
+      setTimeout(() => {
+        resolve(contents);
+      }, 1234);
+    });
+
+    stream.on('error', (err) => {
+      reject(err);
     });
   });
 
