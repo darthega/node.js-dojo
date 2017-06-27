@@ -7,22 +7,50 @@ const handleRequest = (req, res) => {
 
   if (req.method === 'GET') {
     if (req.url === '/') {
-      conf.body = 'Hello World';
+      let num;
+      let text;
+
+      timeOutPromise(() => {
+        num = (Math.random()).toString();
+      }, 957)
+      .then(() => {
+        return timeOutPromise(() => {
+          text = 'Hello World => ' + num;
+        }, 1239);
+      })
+      .then(() => {
+        conf.body = text;
+        setResponse(conf);
+      });
     } else {
       conf.code = 403;
       conf.body = "Get out!!!";
+
+      setResponse(conf);
     }
   } else {
     conf.code = 403;
     conf.body = "Get out!!!";
-  }
 
-  setResponse(conf);
+    setResponse(conf);
+  }
+};
+
+const timeOutPromise = (cb, time) => {
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      cb();
+      resolve();
+    }, time);
+  });
+
+  return promise;
 };
 
 const setResponse = ({res, code = 200, headers = {'Content-type': 'text/html'}, body} = {}) => {
   res.writeHead(code, headers);
-  res.end(body);
+  res.write(body);
+  res.end();
 };
 
 const port = 8090;
