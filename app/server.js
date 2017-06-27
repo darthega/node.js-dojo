@@ -1,60 +1,40 @@
-const handleHTTP = (req, res) => {
-  handleRequest(req, res);
-};
+const { timeOutPromise } = require('./modules/utils.js');
 
-const handleRequest = (req, res) => {
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+
+http.listen(8090, () => {
+  console.log('Listening in port 8090');
+});
+
+app.use(express.static(__dirname + '/www'))
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/www/index.html');
+});
+
+app.get('/load', (req, res) => {
   let conf = {res};
+  let num;
+  let text;
 
-  if (req.method === 'GET') {
-    if (req.url === '/') {
-      let num;
-      let text;
-
-      timeOutPromise(() => {
-        num = (Math.random()).toString();
-      }, 957)
-      .then(() => {
-        return timeOutPromise(() => {
-          text = 'Hello World => ' + num;
-        }, 1239);
-      })
-      .then(() => {
-        conf.body = text;
-        setResponse(conf);
-      });
-    } else {
-      conf.code = 403;
-      conf.body = "Get out!!!";
-
-      setResponse(conf);
-    }
-  } else {
-    conf.code = 403;
-    conf.body = "Get out!!!";
-
+  timeOutPromise(() => {
+    num = (Math.random()).toString();
+  }, 957)
+  .then(() => {
+    return timeOutPromise(() => {
+      text = 'Hello World => ' + num;
+    }, 1239);
+  })
+  .then(() => {
+    conf.body = text;
     setResponse(conf);
-  }
-};
-
-const timeOutPromise = (cb, time) => {
-  let promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      cb();
-      resolve();
-    }, time);
   });
-
-  return promise;
-};
+});
 
 const setResponse = ({res, code = 200, headers = {'Content-type': 'text/html'}, body} = {}) => {
   res.writeHead(code, headers);
-  res.write(body);
+  res.send(body);
   res.end();
 };
-
-const port = 8090;
-const host = 'localhost';
-
-const http = require('http');
-const http_serv = http.createServer(handleHTTP).listen(port, host);

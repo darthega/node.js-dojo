@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+
+.chat {
+  border: 1px solid gray;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 40em;
+  width: 15em;
+}
+
+.chat .content {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.chat .content .form,
+.chat .content .messages {
+  position: absolute;
+  width: 100%;
+}
+
+.chat .content .messages {
+  height: calc(100% - 2.5em);
+  top: 0;
+}
+
+.chat .content .form {
+  bottom: 0;
+  height: 2.5em;
+}
+
+.chat .content .form input,
+.chat .content .form button {
+  height: 100%;
+  padding: 0.5em;
+  line-height: 1.5em;
+}
+
+.chat .content .form input {
+  right: 0;
+  width: 75%;
+}
+
+.chat .content .form button {
+  left: 0;
+  width: 25%;
+}
