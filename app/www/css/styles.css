@@ -12,8 +12,8 @@ body {
 .chat {
   border: 1px solid gray;
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 1.25em;
+  right: 1.25em;
   height: 40em;
   width: 15em;
 }
@@ -25,14 +25,40 @@ body {
 }
 
 .chat .content .form,
-.chat .content .messages {
+.chat .content #messages {
   position: absolute;
   width: 100%;
 }
 
-.chat .content .messages {
+.chat .content #messages {
   height: calc(100% - 2.5em);
+  overflow: scroll;
   top: 0;
+}
+
+.chat .content #messages li {
+  font-size: 0.8em;
+  position: relative;
+  padding: 1.25em 0.75em 0.75em 0.75em;
+  line-height: 1em;
+  transition: all ease-out 0.15s;
+}
+
+.chat .content #messages li:last-child {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.chat .content #messages li:before {
+  content: attr(data-owner);
+  color: blue;
+  font-size: 0.7em;
+  position: absolute;
+  top: 0.25em;
+  left: 1em;
+}
+
+.chat .content #messages li.host-msg:before {
+  color: red;
 }
 
 .chat .content .form {
